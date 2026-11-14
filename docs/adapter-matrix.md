@@ -1,17 +1,17 @@
 # Matriz de adaptadores por harness
 
-Verificada em 13 nov 2026 a partir das páginas oficiais listadas ao final. Reconsulte as fontes ao instalar: caminhos e recursos mudam. **A existência de suporte a skill não garante que comandos, subagentes, permissões ou MCP config sejam portáveis.**
+Matriz-base consultada em 13 nov 2026; a diferença entre os nomes de comando de uma skill standalone e de um plugin Claude Code foi revalidada em 14 nov 2026 com as páginas oficiais listadas ao final. Reconsulte as fontes ao instalar: caminhos e recursos mudam. **A existência de suporte a skill não garante que comandos, subagentes, permissões ou MCP config sejam portáveis.**
 
 | Ambiente | Formato de skill/local | Agentes | MCP | O que adaptar |
 |---|---|---|---|---|
-| Claude Code | plugin `.claude-plugin/plugin.json`; skills `skills/<id>/SKILL.md` | `agents/*.md` no plugin | `.mcp.json` | Instalar plugin como unidade; `/game-studio:start` advém do namespace e da skill `start`. |
+| Claude Code | Plugin `.claude-plugin/plugin.json` com skills `skills/<id>/SKILL.md`; a skill central também pode ser instalada sozinha | `agents/*.md` no plugin | `.mcp.json` | Plugin carregado: `/game-studio:start`. Skill standalone `game-studio-ai`: `/game-studio-ai` e texto da ação; `:start` não se aplica sem plugin. |
 | Codex CLI | `.agents/skills/<id>/SKILL.md`; globais em `$HOME/.agents/skills` | `.codex/agents/*.toml` | `$HOME/.codex/config.toml` ou config de projeto confiável | Copiar skill, criar arquivos TOML dos papéis e configurar MCP em `config.toml`; o slash command de Claude não é assumido. |
 | OpenCode | `.opencode/skills/<id>/SKILL.md`; também reconhece `.agents/skills` e `.claude/skills` | `.opencode/agents/*.md` ou config | bloco `mcp.servers` em `opencode.json[c]` | Copiar skill para local preferido; converter agentes e permissões; confirmar IDs de modelos no catálogo instalado. |
 | DeepSeek Harness | `dsh` tem perfis e plugins; carregamento direto do padrão Agent Skills não confirmado | Usar apenas perfil/plugin confirmado na versão instalada; docs consultadas o marcam developer preview | Não presumir suporte MCP nativo sem verificar a versão e plugins | Injetar a skill só pelo mecanismo oficial realmente disponível; API DeepSeek não equivale a harness nem despacha chamadas de tools sozinha. |
 
 ## Claude Code
 
-O plugin entregue tem `name: game-studio`, com `skills/<id>/SKILL.md`, agentes Markdown em `agents/` e `.claude-plugin/plugin.json`. A invocação esperada é namespaced, como `/game-studio:start`. Skills são a via recomendada para novos comandos; não depende da pasta legada `commands/`. MCP é configuração separada em `.mcp.json`, e o pacote não escolhe um servidor por você.
+O plugin entregue tem `name: game-studio`, com `skills/<id>/SKILL.md`, agentes Markdown em `agents/` e `.claude-plugin/plugin.json`. Com o plugin carregado, a skill de fluxo usa o comando namespaced `/game-studio:start`. Se você instalou somente `skills/game-studio-ai/` como skill pessoal ou enviou essa skill à sua conta, invoque pelo nome disponível, `/game-studio-ai`, e acrescente a ação em texto (ex.: “inicie um projeto novo”). Não use `:start` no modo standalone. MCP é configuração separada em `.mcp.json`, e o pacote não escolhe um servidor por você.
 
 ## Codex CLI
 
@@ -31,7 +31,7 @@ MCP entrega tools, resources e prompts ao cliente; o protocolo não define worke
 
 ## Fontes oficiais
 
-- [Claude Code skills](https://code.claude.com/docs/en/skills.md), [subagents](https://code.claude.com/docs/en/sub-agents.md), [MCP](https://code.claude.com/docs/en/mcp.md), [plugin components](https://code.claude.com/docs/en/plugins/components.md)
+- [Claude Code skills e nome de slash command](https://code.claude.com/docs/en/skills#how-a-skill-gets-its-command-name), [subagents](https://code.claude.com/docs/en/sub-agents.md), [MCP](https://code.claude.com/docs/en/mcp.md), [plugin components](https://code.claude.com/docs/en/plugins/components.md)
 - [Codex skills](https://developers.openai.com/codex/build-skills), [subagents](https://developers.openai.com/codex/agent-configuration/subagents), [MCP](https://developers.openai.com/codex/mcp)
 - [OpenCode skills](https://opencode.ai/docs/skills/), [agents](https://opencode.ai/docs/agents/), [MCP servers](https://opencode.ai/docs/mcp-servers/)
 - [DeepSeek tool calls](https://api-docs.deepseek.com/guides/tool_calls/), [DeepSeek Harness CLI](https://github.com/deepseek-ai/deepseek-harness/blob/master/apps/cli/README.md)

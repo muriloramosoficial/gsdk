@@ -11,14 +11,27 @@ REQUIRED = [
     "README.md",
     "LICENSE",
     "skills/game-studio-ai/SKILL.md",
+    "skills/start/SKILL.md",
+    "skills/game-studio-ai/references/provider-authentication.md",
+    "skills/game-studio-ai/scripts/init_project.py",
+    "skills/game-studio-ai/scripts/init_integrations.py",
+    "skills/game-studio-ai/scripts/check_integrations.py",
+    "skills/game-studio-ai/templates/AI_INTEGRATIONS.md",
+    "skills/game-studio-ai/templates/integrations.json",
     "agents/game-studio-director.md",
     "docs/adapter-matrix.md",
     "docs/installation.md",
     "docs/validation-report.md",
     "scripts/init_project.py",
+    "scripts/init_integrations.py",
+    "scripts/check_integrations.py",
     "scripts/install_skill.py",
     "scripts/validate_package.py",
     "tests/test_init_project.py",
+    "tests/test_init_integrations.py",
+    "tests/test_check_integrations.py",
+    "templates/AI_INTEGRATIONS.md",
+    "templates/integrations.json",
 ]
 errors = []
 for rel in REQUIRED:
@@ -36,6 +49,15 @@ if manifest.exists():
             errors.append("manifesto: esperado name=game-studio para o namespace dos comandos")
     except (json.JSONDecodeError, OSError) as exc:
         errors.append(f"manifesto JSON inválido: {exc}")
+
+integration_template = ROOT / "templates/integrations.json"
+if integration_template.exists():
+    try:
+        data = json.loads(integration_template.read_text(encoding="utf-8"))
+        if data.get("schema_version") != 1 or not isinstance(data.get("task_requirements"), dict):
+            errors.append("template integrations.json: schema_version ou task_requirements inválido")
+    except (json.JSONDecodeError, OSError) as exc:
+        errors.append(f"template integrations.json inválido: {exc}")
 
 skill_files = list((ROOT / "skills").glob("*/SKILL.md")) if (ROOT / "skills").exists() else []
 if not skill_files:
@@ -75,5 +97,5 @@ if errors:
 print("VALIDAÇÃO ESTRUTURAL: OK")
 print(f"Pacote: {ROOT}")
 print(f"Skills encontradas: {len(skill_files)}")
-print("Verificado: manifesto, arquivos esperados, frontmatter, limites de linhas e links relativos Markdown.")
-print("Não verificado: instalação/execução em Claude Code, Codex, OpenCode, DeepSeek Harness, servidores MCP, build de jogo ou publicação.")
+print("Verificado: manifesto do plugin, template JSON, arquivos esperados, frontmatter, limites de linhas e links relativos Markdown.")
+print("Não verificado: login ou chamada real de provider, credenciais, permissões/custos, instalação dos harnesses/MCP, build de jogo ou publicação.")

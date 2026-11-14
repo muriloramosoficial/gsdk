@@ -5,6 +5,8 @@ from pathlib import Path
 import re
 import sys
 
+PACKAGE_ROOT = Path(__file__).resolve().parents[1]
+
 
 def slug(value: str) -> str:
     text = re.sub(r"[^a-zA-Z0-9_-]+", "-", value.strip().lower()).strip("-")
@@ -38,6 +40,8 @@ def main() -> int:
         "TASKS.md": "# Backlog\n\n## GS-0001 — Aprovar conceito inicial\n- Tipo / prioridade / estado: design / P1 / proposed\n- Responsável: game-studio-director\n- Objetivo: documentar ideia, pilares, público/plataforma presumidos, loop e fora de escopo.\n- Entradas / saídas: ideia do criador / concept brief em studio/GDD.md\n- Dependências: descrição do criador\n- Critérios de aceite: concept brief compreensível, premissas identificadas e aprovado pelo criador.\n- Testes requeridos: revisão humana do conceito\n- Aprovação humana: pending\n- Evidência / resultado: pendente\n",
         "DECISIONS.md": "# Registro de decisões\n\nNenhuma decisão de produção aprovada.\n",
         "BUGS.md": "# Bugs\n\nNenhum bug registrado.\n",
+        "AI_INTEGRATIONS.md": (PACKAGE_ROOT / "templates" / "AI_INTEGRATIONS.md").read_text(encoding="utf-8"),
+        "integrations.json": (PACKAGE_ROOT / "templates" / "integrations.json").read_text(encoding="utf-8"),
     }
     studio.mkdir()
     created = []

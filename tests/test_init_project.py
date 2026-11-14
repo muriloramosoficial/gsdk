@@ -1,3 +1,4 @@
+import json
 import subprocess
 import sys
 import tempfile
@@ -20,6 +21,10 @@ class InitProjectTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue((root / "studio" / "PROJECT.md").is_file())
             self.assertTrue((root / "studio" / "TASKS.md").is_file())
+            self.assertTrue((root / "studio" / "AI_INTEGRATIONS.md").is_file())
+            manifest = json.loads((root / "studio" / "integrations.json").read_text(encoding="utf-8"))
+            self.assertEqual(manifest["schema_version"], 1)
+            self.assertEqual(manifest["runtime"]["status"], "pending")
 
     def test_refuses_existing_studio_without_modifying_it(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -48,6 +53,8 @@ class InitProjectTests(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertTrue((root / ".agents/skills/game-studio-ai/SKILL.md").is_file())
+            self.assertTrue((root / ".agents/skills/game-studio-ai/scripts/check_integrations.py").is_file())
+            self.assertTrue((root / ".agents/skills/game-studio-ai/templates/integrations.json").is_file())
 
     def test_installs_opencode_skill_and_refuses_overwrite(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -58,6 +65,8 @@ class InitProjectTests(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stderr)
             skill_file = root / ".opencode/skills/game-studio-ai/SKILL.md"
             self.assertTrue(skill_file.is_file())
+            self.assertTrue((root / ".opencode/skills/game-studio-ai/scripts/check_integrations.py").is_file())
+            self.assertTrue((root / ".opencode/skills/game-studio-ai/templates/integrations.json").is_file())
             before = skill_file.read_text(encoding="utf-8")
             second = subprocess.run(command, text=True, capture_output=True)
             self.assertEqual(second.returncode, 4)

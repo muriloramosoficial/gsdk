@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "runtime": {
+    "provider": "",
+    "auth_mode": "",
+    "status": "pending",
+    "secret_env": []
+  },
+  "providers": [
+    {"id": "codex", "auth_mode": "", "status": "not_configured", "secret_env": ["CODEX_API_KEY"]},
+    {"id": "scenario", "auth_mode": "", "status": "not_configured", "secret_env": ["SCENARIO_SDK_API_KEY", "SCENARIO_SDK_API_SECRET"]},
+    {"id": "pixellab", "auth_mode": "", "status": "not_configured", "secret_env": ["PIXELLAB_API_TOKEN"]},
+    {"id": "meshy", "auth_mode": "", "status": "not_configured", "secret_env": ["MESHY_API_KEY"]},
+    {"id": "blender", "auth_mode": "", "status": "not_configured", "secret_env": []},
+    {"id": "elevenlabs", "auth_mode": "", "status": "not_configured", "secret_env": ["ELEVENLABS_API_KEY"]},
+    {"id": "playwright", "auth_mode": "", "status": "not_configured", "secret_env": []},
+    {"id": "supabase", "auth_mode": "", "status": "not_configured", "secret_env": []},
+    {"id": "deepseek", "auth_mode": "", "status": "not_configured", "secret_env": ["DEEPSEEK_API_KEY"]}
+  ],
+  "task_requirements": {
+    "code_review": ["codex"],
+    "concept_art": ["scenario"],
+    "pixel_art": ["pixellab"],
+    "3d_generation": ["meshy"],
+    "blender_scene_edit": ["blender"],
+    "audio_generation": ["elevenlabs"],
+    "browser_qa": ["playwright"],
+    "supabase_backend": ["supabase"],
+    "deepseek_inference": ["deepseek"]
+  }
+}

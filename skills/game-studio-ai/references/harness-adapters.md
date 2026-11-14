@@ -18,7 +18,7 @@ Mantenha `SKILL.md` e os documentos/contratos de agentes como núcleo portável.
 
 ### Claude Code
 
-Um plugin pode conter `.claude-plugin/plugin.json`, `skills/`, `agents/`, `hooks/hooks.json` e `.mcp.json` na raiz. Skills do plugin ficam em `skills/<nome>/SKILL.md`; agentes em `agents/<nome>.md`. Skills aparecem com namespace do plugin, por exemplo `/game-studio:start` quando o plugin se chama `game-studio`. Também há instalação de skills/agentes fora de plugin. Preferir skills para novos comandos; não depender do formato legado `commands/`.
+Um plugin pode conter `.claude-plugin/plugin.json`, `skills/`, `agents/`, `hooks/hooks.json` e `.mcp.json` na raiz. Skills do plugin ficam em `skills/<nome>/SKILL.md`; agentes em `agents/<nome>.md`. No plugin `game-studio`, as skills de fluxo aparecem com namespace, por exemplo `/game-studio:start`. Se a skill central `game-studio-ai` for instalada sozinha na conta/como skill pessoal, sem o plugin, invoque `/game-studio-ai` e descreva a ação — por exemplo, `inicie um projeto`. `:start` não é um subcomando universal da skill isolada. Também há instalação de skills/agentes fora de plugin. Preferir skills para novos comandos; não depender do formato legado `commands/`.
 
 ### Codex CLI
 
@@ -43,6 +43,7 @@ A DeepSeek API é compatível com a forma da API OpenAI em partes documentadas, 
 ## Referências oficiais
 
 - Claude Code Skills: https://code.claude.com/docs/en/skills.md
+- Claude Code command names: https://code.claude.com/docs/en/skills#how-a-skill-gets-its-command-name
 - Claude Code Subagents: https://code.claude.com/docs/en/sub-agents.md
 - Claude Code MCP: https://code.claude.com/docs/en/mcp.md
 - Claude Code plugin components: https://code.claude.com/docs/en/plugins/components.md
